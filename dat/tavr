@@ -1,0 +1,41 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+# усреднить по дням "дату - время - температуру - снег"
+# дата в формате DD/MM
+
+
+my %data;
+foreach (<>){
+  next if /^#/;
+  my ($d, $t, $T, $s) = split(/\s+/);
+  $d=~/(\d\d)\.(\d\d)/;
+  my $d1 = "$2.$1"; # MM.DD for sorting
+  push @{$data{$d1}}, {d=>$d, t=>$t, T=>$T, s=>$s};
+}
+
+foreach my $d1 (sort keys %data){
+  $a = $data{$d1};
+  my $Ta = 0;
+  my $n = 0;
+  my $sm = '';
+  my $d = 0;
+  foreach (@{$a}){
+    $d = $_->{d};
+    $Ta += $_->{T};
+    $n +=1;
+    if ($_->{s} =~ /[0-9\.]+/){
+      $sm = $_->{s} if ($sm !~ /[0-9\.]+/) || ($_->{s} > $sm);
+    }
+  }
+  $Ta /= $n;
+
+
+  if ($sm =~ /[0-9\.]+/){
+    printf "%5s\t%6.2f\t%4.1f\n", $d, $Ta, $sm;
+  }
+  else {
+    printf "%5s\t%6.2f\n", $d, $Ta;
+  }
+}

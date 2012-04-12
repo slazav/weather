@@ -1,0 +1,12 @@
+В этой директории лежат исходные файлы, скачанные с rp5 или meteocenter.
+Файлы с meteocenter должны иметь префикс 'mc'. Файлы могут быть в
+формате .csv или .csv.gz.
+
+Файлы читаются из директории ../dat скриптом update, при этом автоматически
+обновляются устаревшие файлы в ../dat.
+
+Душанбе:   http://rp5.tj/archive.php?wmo_id=38836&lang=ru
+Сарытаг:   http://rp5.tj/archive.php?wmo_id=38718&lang=ru
+Анзобский: http://rp5.tj/archive.php?wmo_id=38719&lang=ru
+Тула:      http://rp5.ru/archive.php?wmo_id=27719&lang=ru
+           http://meteocenter.net/27719_fact.htm (2001-2005г)

@@ -1,0 +1,60 @@
+#!/bin/sh -eu
+
+# вытащить из csv.gz  дату - время - температуру - снег
+
+read_rp5(){
+  tr -d '"\r' |
+  while IFS=';' read t T Po P U DD Ff ff10 ff3 N WW W1 W2\
+                     Tn Tx Cl Nh H Cm Ch VV Td RRR tR E E1 sss o1 o2; do
+    if [ -z "${t%%#*}" ]; then echo "$t"; continue; fi
+
+    [ "$T" != 'T' ] || continue
+    tt="${t##* }"
+    t="${t%.???? *}"
+    [ -z "$o1" ] || sss="$o1"
+    [ -n "$sss" -o -n "${tt##*10:00}" ] || sss=0
+    [ -n "$sss" -o -n "${tt##*08:00}" ] || sss=0
+    echo -e "$t $tt\t$T\t$sss"
+  done
+}
+
+read_mc(){
+  while IFS=';' read t d T x1 x2 x3 x4 x5 x6 T Td f Te Pmin dP Po Tmin R sss x6; do
+    [ "$sss" != 's' ] || continue
+    d="${d%.??}"
+    [ -n "$sss" -o -n "${t##*06}" ] || sss=0
+    echo -e "$d $t:00\t$T\t$sss"
+  done
+}
+
+
+for f in ../csv/*.csv.gz ../csv/*.csv; do
+  [ -f "$f" ] || continue
+
+  echo ">>> $f"
+  of="$(basename "$f" .gz)"
+  of="${of%.csv}"
+  mc="$of"
+  of="${of#mc}"
+
+  if [ "$of" -ot "$f" ]; then
+
+    [ -z "${f##*.gz}" ] &&
+      cmd="gunzip -c \"$f\"" ||
+      cmd="cat \"$f\""
+
+    [ -z "${mc%%mc*}" ] &&
+      cmd="$cmd | read_mc" ||
+      cmd="$cmd | read_rp5"
+
+    cmd="$cmd > \"$of\""
+    echo "$cmd"
+    eval "$cmd"
+  fi
+
+  af="${of}_a"
+  if [ "$af" -ot "$of" ]; then
+    ./tavr < $of > $af
+  fi
+
+done

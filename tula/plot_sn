@@ -1,0 +1,29 @@
+#!/usr/bin/gnuplot
+
+#set nokey
+set xdata time
+set timefmt "%d.%m %H:%M"
+set title "глубина снега в Туле"
+
+set style data lines
+
+plot ["20.02":"20.04"] [-20:60]\
+  "../dat/27719_2001_a" using 1:3 title "2001",\
+  "../dat/27719_2003_a" using 1:3 title "2003",\
+  "../dat/27719_2004_a" using 1:3 title "2004",\
+  "../dat/27719_2005_a" using 1:3 title "2005",\
+  "../dat/27719_2006_a" using 1:3 title "2006",\
+  "../dat/27719_2007_a" using 1:3 title "2007",\
+  "../dat/27719_2008_a" using 1:3 lw 3 title "2008",\
+  "../dat/27719_2009_a" using 1:3 lw 3 title "2009",\
+  "../dat/27719_2010_a" using 1:3 lw 3 title "2010",\
+  "../dat/27719_2011_a" using 1:3 lw 3 title "2011",\
+  "../dat/27719_2012a_a" using 1:3 lw 3 title "2012",\
+0 title ""
+
+pause -1
+
+set terminal png
+set output "tula_sn.png"
+replot
+
