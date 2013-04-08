@@ -4,8 +4,8 @@
 
 read_rp5(){
   tr -d '"\r' |
-  while IFS=';' read t T Po P U DD Ff ff10 ff3 N WW W1 W2\
-                     Tn Tx Cl Nh H Cm Ch VV Td RRR tR E E1 sss o1 o2; do
+  while IFS=';' read t T Po P Pa U DD Ff ff10 ff3 N WW W1 W2\
+                     Tn Tx Cl Nh H Cm Ch VV Td RRR tR E Tg E1 sss o1 o2; do
     if [ -z "${t%%#*}" ]; then echo "$t"; continue; fi
 
     [ "$T" != 'T' ] || continue

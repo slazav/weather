@@ -15,6 +15,8 @@ plot ["01.02":"01.06"] [-40:20]\
   "../dat/30547_2011_a" using 1:2 lc 2 lw 2 title "среднесуточная",\
   "../dat/30547_2012"   using 1:3 lc 3 title "2012",\
   "../dat/30547_2012_a" using 1:2 lc 3 lw 2 title "среднесуточная",\
+  "../dat/30547_2013_"   using 1:3 lc 4 title "2013",\
+  "../dat/30547_2013__a" using 1:2 lc 4 lw 2 title "среднесуточная",\
 10 lc 0 title "",\
 -10 lc 0 title "",\
 -20 lc 0 title "",\
