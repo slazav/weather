@@ -1,0 +1,26 @@
+#!/usr/bin/gnuplot
+
+year="2012"
+
+
+#set nokey
+set xdata time
+set timefmt "%d.%m %H:%M"
+set title "Анзобский (3373м)"
+
+#plot ["01.03.".year:] []
+plot ["1.09":"01.12"] []\
+  "../dat/38719_2010_a"   using 1:($2*10) with lines lc 1 lw 1 lt 1 title "температура x10, 2010",\
+  "../dat/38719_2011_a"   using 1:($2*10) with lines lc 2 lw 1 title "2011",\
+  "../dat/38719_2012_a"   using 1:($2*10) with lines lc 3 lw 1 title "2012",\
+  "../dat/38719_2010_a"   using 1:3 with linespoints lc 1 lw 2 pt 6 lt 2  title "глубина снега, 2010",\
+  "../dat/38719_2011_a"   using 1:3 with linespoints lc 2 lw 2 pt 6 title "2011",\
+  "../dat/38719_2012_a"   using 1:3 with linespoints lc 3 lw 2 pt 7 title "2012",\
+0 lc 0 title ""
+
+
+pause -1
+set terminal png
+set output "tj_anz.png"
+
+replot

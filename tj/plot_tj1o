@@ -1,0 +1,28 @@
+#!/usr/bin/gnuplot
+
+year="2012a"
+
+#set nokey
+set xdata time
+set timefmt "%d.%m %H:%M"
+set title "Душанбе (803м), Сарытаг (2603м), Анзобский (3373м) весна " . year
+set style data lines
+
+plot ["01.01":"01.12"] [-20:35]\
+  "../dat/38719_" . year        using 1:3 lc 1 title "температура в Анзобском",\
+  "../dat/38719_" . year . "_a" using 1:2 lc 1 lw 2 title "среднесуточная",\
+  "../dat/38718_" . year        using 1:3 lc 2 title "температура в Сарытаге",\
+  "../dat/38718_" . year . "_a" using 1:2 lc 2 lw 2 title "среднесуточная",\
+  "../dat/38836_" . year        using 1:3 lc 3 title "температура в Душанбе",\
+  "../dat/38836_" . year . "_a" using 1:2 lc 3 lw 2 title "среднесуточная",\
+10 lc 0 title "",\
+-10 lc 0 title "",\
+20 lc 0 title "",\
+0 lc 0 title ""
+
+pause -1
+
+set terminal png
+set output "tj" . year . ".png"
+replot
+
