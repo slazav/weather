@@ -14,8 +14,11 @@ read_rp5(){
     [ -z "$o1" ] || sss="$o1"
     [ -n "$sss" -o -n "${tt##*10:00}" ] || sss=""
     [ -n "$sss" -o -n "${tt##*08:00}" ] || sss=""
-    [ -n "$T" ] || T=0
-    echo -e "$t $tt\t$T\t$sss"
+    [ -n "$T" ]   || T='-'
+    [ -n "$sss" ] || sss='-'
+
+    [[ "$Ff" =~ ([0-9\.]+) ]] && Ff=${BASH_REMATCH[0]} || Ff="-"
+    echo -e "$t $tt\t$T\t$sss\t$Ff"
   done
 }
 

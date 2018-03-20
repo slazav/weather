@@ -9,33 +9,42 @@ use strict;
 my %data;
 foreach (<>){
   next if /^#/;
-  my ($d, $t, $T, $s) = split(/\s+/);
+  my ($d, $t, $T, $s, $w) = split(/\s+/);
   $d=~/(\d\d)\.(\d\d)/;
   my $d1 = "$2.$1"; # MM.DD for sorting
-  push @{$data{$d1}}, {d=>$d, t=>$t, T=>$T, s=>$s};
+  push @{$data{$d1}}, {d=>$d, t=>$t, T=>$T, s=>$s, w=>$w};
 }
 
 foreach my $d1 (sort keys %data){
   $a = $data{$d1};
   my $Ta = 0;
-  my $n = 0;
+  my $nt = 0;
+  my $Wa = 0;
+  my $nw = 0;
+
   my $sm = '';
   my $d = 0;
   foreach (@{$a}){
     $d = $_->{d};
-    $Ta += $_->{T};
-    $n +=1;
+    if ($_->{T} =~ /[0-9\.]+/){
+      $Ta += $_->{T};
+      $nt +=1;
+    }
+    if ($_->{w} =~ /[0-9\.]+/){
+      $Wa += $_->{w};
+      $nw +=1;
+    }
+
     if ($_->{s} =~ /[0-9\.]+/){
       $sm = $_->{s} if ($sm !~ /[0-9\.]+/) || ($_->{s} > $sm);
     }
   }
-  $Ta /= $n;
+  if ($nt>0) { $Ta /= $nt} else {$Ta=''};
+  if ($nw>0) { $Wa /= $nw} else {$Wa=''};
 
-
-  if ($sm =~ /[0-9\.]+/){
-    printf "%5s\t%6.2f\t%4.1f\n", $d, $Ta, $sm;
-  }
-  else {
-    printf "%5s\t%6.2f\n", $d, $Ta;
-  }
+  printf "%5s", $d;
+  if ($Ta =~ /[0-9\.]+/){ printf "\t%6.2f", $Ta;  } else { print "\t-"; }
+  if ($sm =~ /[0-9\.]+/){ printf "\t%4.1f", $sm;  } else { print "\t-"; }
+  if ($Wa =~ /[0-9\.]+/){ printf "\t%4.1f", $Wa;  } else { print "\t-"; }
+  print "\n";
 }
